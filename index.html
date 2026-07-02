@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facundo Gimenez — Backend Software Engineer</title>
+<meta name="description" content="Ruby on Rails specialist with 7+ years of backend experience. Building Hilo, a digital health record platform with AI built in.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230F1420'/%3E%3Ctext x='50' y='68' font-size='52' font-family='monospace' font-weight='700' fill='%23E8A33D' text-anchor='middle'%3E%3E_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0F1420;
+    --bg-panel: #171E2C;
+    --bg-panel-alt: #1D2637;
+    --border: #2A3448;
+    --border-soft: #232C3F;
+    --text-primary: #E7EAF0;
+    --text-muted: #99A3B8;
+    --text-faint: #626E85;
+    --accent-amber: #E8A33D;
+    --accent-amber-dim: #B47F2E;
+    --accent-green: #5FD68D;
+    --accent-red: #E8735D;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius: 10px;
+    --container: 860px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg-deep);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(232,163,61,0.08), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 15%, rgba(95,214,141,0.05), transparent 55%);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent-amber);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15,20,32,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .topnav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .brand {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .brand span { color: var(--accent-amber); }
+  nav.paths {
+    display: flex;
+    gap: 22px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  nav.paths a {
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+  }
+  nav.paths a:hover { color: var(--accent-amber); }
+  nav.paths a::before { content: "/"; color: var(--text-faint); margin-right: 2px; }
+
+  @media (max-width: 640px) {
+    nav.paths { display: none; }
+  }
+
+  /* ---------- HERO ---------- */
+  section.hero {
+    padding: 72px 0 56px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-green);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+  }
+
+  .terminal {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-panel-alt);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.red { background: #E8735D; }
+  .dot.amber { background: #E8A33D; }
+  .dot.green { background: #5FD68D; }
+  .terminal-title {
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .terminal-body {
+    padding: 24px 26px 28px;
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+  }
+  .terminal-body .line { margin: 0 0 10px; }
+  .prompt { color: var(--accent-green); }
+  .path { color: var(--text-faint); }
+  .cmd { color: var(--text-primary); }
+  .out {
+    color: var(--text-muted);
+    margin: 4px 0 16px;
+  }
+  .out strong { color: var(--text-primary); font-weight: 600; }
+  .out .hl { color: var(--accent-amber); }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--accent-amber);
+    vertical-align: text-bottom;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; opacity: 1; }
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    padding: 10px 16px;
+    border-radius: 7px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    border: 1px solid var(--border);
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn.primary {
+    background: var(--accent-amber);
+    color: #17110a;
+    border-color: var(--accent-amber);
+    font-weight: 600;
+  }
+  .btn.primary:hover { background: #f0ae4c; }
+  .btn.ghost {
+    background: transparent;
+    color: var(--text-primary);
+  }
+  .btn.ghost:hover { border-color: var(--accent-amber-dim); color: var(--accent-amber); }
+
+  /* ---------- SECTION HEADERS ---------- */
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--border-soft); }
+
+  .sec-head { margin-bottom: 34px; }
+  .sec-cmd {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-green);
+    margin: 0 0 8px;
+  }
+  .sec-cmd::before { content: "$ "; color: var(--text-faint); }
+  h2.sec-title {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-text {
+    font-size: 16.5px;
+    color: var(--text-muted);
+    max-width: 660px;
+  }
+  .about-text strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ---------- EXPERIENCE (git log) ---------- */
+  .commit {
+    position: relative;
+    padding: 24px 0 24px 30px;
+    border-left: 2px solid var(--border);
+  }
+  .commit:last-child { padding-bottom: 4px; }
+  .commit::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 28px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    border: 2px solid var(--accent-amber);
+  }
+  .commit-meta {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-bottom: 4px;
+  }
+  .commit-meta .hash { color: var(--accent-amber); }
+  .commit-role {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 4px 0 2px;
+    font-family: var(--font-sans);
+  }
+  .commit-role .at { color: var(--text-faint); font-weight: 400; }
+  .commit-date {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+  .diff {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-muted);
+    padding: 14px 16px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    line-height: 1.85;
+  }
+  .diff .add { color: var(--accent-green); }
+  .diff .add::before { content: "+ "; opacity: 0.7; }
+  .diff .rm { color: var(--accent-red); }
+  .diff .rm::before { content: "- "; opacity: 0.7; }
+  .diff .rm { display: block; }
+  .diff .add { display: block; }
+  .commit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-amber);
+    text-decoration: none;
+  }
+  .commit-link:hover { text-decoration: underline; }
+  .commit-link::before { content: "↳"; color: var(--text-faint); }
+  .commit-link.soon {
+    color: var(--text-faint);
+    cursor: default;
+    pointer-events: none;
+  }
+  .commit-link.soon:hover { text-decoration: none; }
+
+  /* ---------- PROJECT (branch) ---------- */
+  .branch-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .branch-tag .b { color: var(--accent-green); }
+  .status-pill {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent-amber);
+    background: rgba(232,163,61,0.12);
+    border: 1px solid rgba(232,163,61,0.35);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-left: 4px;
+  }
+
+  .project-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px 30px 26px;
+  }
+  .project-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .project-sub {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin: 0 0 18px;
+  }
+  .stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 6px;
+  }
+  .project-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 620px;
+    margin-bottom: 20px;
+  }
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+  .checklist li {
+    padding: 5px 0;
+    display: flex;
+    gap: 10px;
+  }
+  .checklist li::before { content: "✓"; color: var(--accent-green); }
+
+  /* ---------- SKILLS (Gemfile) ---------- */
+  .gemfile {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+  .gemfile .cmt { color: var(--text-faint); }
+  .gemfile .kw { color: var(--accent-amber); }
+  .gemfile .str { color: var(--accent-green); }
+  .gemfile .grp { color: var(--text-muted); padding-left: 18px; display: block; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .contact-card {
+    flex: 1 1 220px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .contact-card:hover { border-color: var(--accent-amber-dim); }
+  .contact-card.soon:hover { border-color: var(--border); }
+  .contact-card.soon .contact-value { color: var(--text-faint); }
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .contact-value {
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  footer {
+    padding: 40px 0 60px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 560px) {
+    .terminal-body { font-size: 13px; padding: 20px; }
+    h2.sec-title { font-size: 22px; }
+    section { padding: 44px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="wrap">
+    <a href="#home" class="brand">facundo<span>@</span>gimenez</a>
+    <nav class="paths">
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#project">hilo</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="home">
+    <div class="wrap">
+      <p class="eyebrow">open to new opportunities</p>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span>
+          <span class="dot amber"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">facundo@portfolio — zsh</span>
+        </div>
+        <div class="terminal-body">
+          <p class="line"><span class="prompt">facundo@portfolio</span><span class="path">:~$</span> <span class="cmd">whoami</span></p>
+          <p class="out"><strong>Facundo Gimenez</strong> — Backend Software Engineer<br>
+          <span class="hl">Ruby on Rails</span> specialist. Backend developer since 2018, now leading products end to end.<br>
+          Based in Tandil, Argentina.</p>
+
+          <p class="line"><span class="prompt">facundo@portfolio</span><span class="path">:~$</span> <span class="cmd">cat now.txt</span></p>
+          <p class="out">Bringing <span class="hl">AI</span> (LLMs, MCP, Claude Code) into the daily development workflow,<br>
+          and building <span class="hl">Hilo</span> — a digital health record platform with AI built in.</p>
+
+          <p class="line"><span class="prompt">facundo@portfolio</span><span class="path">:~$</span> <span class="cursor"></span></p>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn primary" href="#experience">view experience →</a>
+        <a class="btn ghost" href="https://github.com/FacundoGimenez" target="_blank" rel="noopener">github ↗</a>
+        <a class="btn ghost" href="mailto:facundogimenez.h@gmail.com">get in touch ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-cmd">cat about.md</p>
+        <h2 class="sec-title">About Me</h2>
+      </div>
+      <p class="about-text">
+        I started my career as a junior developer, resolving support tickets and learning the craft day by day.
+        Today I have <strong>7+ years</strong> of backend experience with <strong>Ruby on Rails</strong>, and I lead
+        the product end to end: the production API, the website (frontend and backend), infrastructure and CI/CD
+        pipelines. Lately I've been bringing <strong>AI</strong> (LLMs, MCP, Claude Code) into my real workflow —
+        not as a trend, but as one more tool to speed up debugging, solution generation and technical documentation.
+        I care about performance, scalability and code quality as much as I care about truly understanding the
+        problem I'm solving.
+      </p>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-cmd">git log --oneline --stat</p>
+        <h2 class="sec-title">Experience</h2>
+      </div>
+
+      <div class="commit">
+        <div class="commit-meta"><span class="hash">2bbb750</span> <span>(HEAD -&gt; main, origin/main)</span></div>
+        <p class="commit-role">Backend Developer <span class="at">@ Uttopion</span></p>
+        <p class="commit-date">Mar 2024 — present · Spain (remote)</p>
+        <div class="diff">
+          <span class="add">Brought LLMs and MCP-based workflows (Claude Code) into the development process</span>
+          <span class="rm">infra: AWS</span>
+          <span class="add">infra: Render — full migration, optimizing costs</span>
+          <span class="add">Implemented CI/CD pipelines that automated releases</span>
+          <span class="add">Refactored legacy code and resolved critical production issues</span>
+          <span class="add">Led the web platform full-stack: WebGL, purchases, wallet, Stripe and daily rewards</span>
+        </div>
+        <a class="commit-link" href="https://uttopion.es/" target="_blank" rel="noopener">view product — uttopion.es</a>
+      </div>
+
+      <div class="commit">
+        <div class="commit-meta"><span class="hash">1d57293</span></div>
+        <p class="commit-role">Backend Developer <span class="at">@ Avenida+</span></p>
+        <p class="commit-date">Apr 2022 — Sep 2024 · Buenos Aires</p>
+        <div class="diff">
+          <span class="add">Backend development in Rails for banking-entity ecommerce</span>
+          <span class="add">Integrated external services and optimized queries</span>
+        </div>
+        <a class="commit-link" href="https://www.tiendabna.com.ar/" target="_blank" rel="noopener">view product — tiendabna.com.ar</a>
+      </div>
+
+      <div class="commit">
+        <div class="commit-meta"><span class="hash">76615fa</span></div>
+        <p class="commit-role">Backend Developer <span class="at">@ Increase</span></p>
+        <p class="commit-date">Apr 2021 — Apr 2022 · Buenos Aires</p>
+        <div class="diff">
+          <span class="add">Developed features for the core product</span>
+          <span class="add">Resolved incidents and provided technical support to clients</span>
+        </div>
+        <a class="commit-link" href="https://increase.app/" target="_blank" rel="noopener">view product — increase.app</a>
+      </div>
+
+      <div class="commit">
+        <div class="commit-meta"><span class="hash">87fbb8a</span></div>
+        <p class="commit-role">Backend Developer <span class="at">@ Qubik Digital</span></p>
+        <p class="commit-date">Apr 2019 — Apr 2021 · Buenos Aires</p>
+        <div class="diff">
+          <span class="add">Ecommerce stores with Workarea + Rails</span>
+          <span class="add">First hands-on frontend work with JavaScript</span>
+        </div>
+      </div>
+
+      <div class="commit">
+        <div class="commit-meta"><span class="hash">63f4d29</span> <span>(initial commit)</span></div>
+        <p class="commit-role">Backend Developer <span class="at">@ Sinequix</span></p>
+        <p class="commit-date">Apr 2018 — Mar 2019 · Buenos Aires · first role</p>
+        <div class="diff">
+          <span class="add">Backend development in Ruby on full-stack web projects</span>
+          <span class="add">Learned version control, code review and team deployments</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="project">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-cmd">git branch --show-current</p>
+        <h2 class="sec-title">Personal Project</h2>
+      </div>
+
+      <div class="branch-tag"><span class="b">⎇ feature/hilo</span> — not merged to main <span class="status-pill">🚧 in progress</span></div>
+
+      <div class="project-card">
+        <p class="project-title">Hilo</p>
+        <p class="project-sub">Patient-centered digital health record platform</p>
+        <div class="stack-row">
+          <span class="chip">Rails 8</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">OpenAI API</span>
+          <span class="chip">Capacitor</span>
+          <span class="chip">PWA</span>
+        </div>
+        <p class="project-desc">
+          Multi-role platform (patient, doctor, clinic) with granular, permission-based access control per patient.
+          The patient owns their medical information, can share it securely and temporarily, and use AI
+          to understand documents that used to require a doctor to interpret.
+        </p>
+        <ul class="checklist">
+          <li>AI-powered analysis of medical documents, with user confirmation before persisting</li>
+          <li>Dynamic PDF generation of medical summaries</li>
+          <li>Secure sharing via PIN-protected temporary links with access auditing</li>
+          <li>iOS and Android app with Capacitor, reusing the same Rails app</li>
+        </ul>
+        <span class="commit-link soon">view project — soon</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-cmd">cat Gemfile</p>
+        <h2 class="sec-title">Stack</h2>
+      </div>
+      <div class="gemfile">
+        <span class="cmt"># Gemfile</span><br>
+        <span class="kw">source</span> <span class="str">"career.rb"</span><br>
+        <br>
+        <span class="kw">gem</span> <span class="str">"ruby-on-rails"</span>, <span class="str">"~> 8.0"</span><br>
+        <span class="kw">gem</span> <span class="str">"postgresql"</span><br>
+        <span class="kw">gem</span> <span class="str">"hotwire-turbo"</span><br>
+        <span class="kw">gem</span> <span class="str">"actioncable"</span><br>
+        <span class="kw">gem</span> <span class="str">"redis"</span><br>
+        <br>
+        <span class="kw">group</span> <span class="str">:ai</span> <span class="kw">do</span><br>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"llms"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"mcp"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"claude-code"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"prompt-engineering"</span></span>
+        <span class="kw">end</span><br>
+        <br>
+        <span class="kw">group</span> <span class="str">:devops</span> <span class="kw">do</span><br>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"docker"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"ci-cd"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"aws"</span></span>
+        <span class="grp"><span class="kw">gem</span> <span class="str">"render"</span></span>
+        <span class="kw">end</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="sec-cmd">cat contact.txt</p>
+        <h2 class="sec-title">Let's talk</h2>
+      </div>
+      <div class="contact-row">
+        <a class="contact-card" href="mailto:facundogimenez.h@gmail.com">
+          <div class="contact-label">EMAIL</div>
+          <div class="contact-value">facundogimenez.h@gmail.com</div>
+        </a>
+        <a class="contact-card" href="https://github.com/FacundoGimenez" target="_blank" rel="noopener">
+          <div class="contact-label">GITHUB</div>
+          <div class="contact-value">github.com/FacundoGimenez</div>
+        </a>
+        <div class="contact-card soon">
+          <div class="contact-label">CURRENT PROJECT</div>
+          <div class="contact-value">Hilo — soon</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    facundo@portfolio:~$ echo "thanks for reading this far" · Tandil, Argentina
+  </div>
+</footer>
+
+</body>
+</html>
