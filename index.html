@@ -388,6 +388,33 @@
   }
   .checklist li::before { content: "✓"; color: var(--accent-green); }
 
+  /* ---------- PROJECTS (git graph) ---------- */
+  .proj-graph { position: relative; padding-left: 34px; }
+  .proj-graph::before {
+    content: ""; position: absolute; left: 9px; top: 14px; bottom: 14px;
+    width: 2px; background: linear-gradient(var(--accent-green), var(--accent-amber));
+    opacity: 0.55; border-radius: 2px;
+  }
+  .proj-node { position: relative; margin-bottom: 34px; }
+  .proj-node:last-child { margin-bottom: 0; }
+  .proj-node::before {
+    content: ""; position: absolute; left: -31px; top: 10px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--bg-deep); border: 2px solid var(--accent-amber);
+  }
+  .proj-node.live::before { border-color: var(--accent-green); background: var(--accent-green); box-shadow: 0 0 0 4px rgba(95,214,141,0.15); }
+  .status-pill.live {
+    color: var(--accent-green);
+    background: rgba(95,214,141,0.12);
+    border-color: rgba(95,214,141,0.35);
+  }
+  .project-card .commit-link + .commit-link { margin-left: 18px; }
+  @media (max-width: 600px) {
+    .proj-graph { padding-left: 24px; }
+    .proj-graph::before { left: 5px; }
+    .proj-node::before { left: -25px; width: 12px; height: 12px; }
+  }
+
   /* ---------- SKILLS (Gemfile) ---------- */
   .gemfile {
     background: var(--bg-panel);
@@ -458,7 +485,7 @@
     <nav class="paths">
       <a href="#about">about</a>
       <a href="#experience">experience</a>
-      <a href="#project">hilo</a>
+      <a href="#project">projects</a>
       <a href="#contact">contact</a>
     </nav>
   </div>
@@ -504,13 +531,11 @@
         <h2 class="sec-title">About Me</h2>
       </div>
       <p class="about-text">
-        I started my career as a junior developer, resolving support tickets and learning the craft day by day.
-        Today I have <strong>7+ years</strong> of backend experience with <strong>Ruby on Rails</strong>, and I lead
-        the product end to end: the production API, the website (frontend and backend), infrastructure and CI/CD
-        pipelines. Lately I've been bringing <strong>AI</strong> (LLMs, MCP, Claude Code) into my real workflow —
-        not as a trend, but as one more tool to speed up debugging, solution generation and technical documentation.
-        I care about performance, scalability and code quality as much as I care about truly understanding the
-        problem I'm solving.
+        I build software products end to end. For the past <strong>7+ years</strong> I've worked mainly with
+        <strong>Ruby on Rails</strong>, on everything from e-commerce for banking entities to a Web3 platform with
+        payments, wallets and rewards, where I led the product from the API to infrastructure. <strong>AI</strong> is
+        part of my daily workflow, which lets me move fast and ship in whatever stack a project needs.
+        Need a hand with your product, or want to build one from scratch? <a href="#contact" class="hl">Let's talk.</a>
       </p>
     </div>
   </section>
@@ -584,34 +609,67 @@
   <section id="project">
     <div class="wrap">
       <div class="sec-head">
-        <p class="sec-cmd">git branch --show-current</p>
-        <h2 class="sec-title">Personal Project</h2>
+        <p class="sec-cmd">git log --graph --oneline</p>
+        <h2 class="sec-title">Personal Projects</h2>
       </div>
 
-      <div class="branch-tag"><span class="b">⎇ feature/hilo</span> — not merged to main <span class="status-pill">🚧 in progress</span></div>
+      <div class="proj-graph">
+        <div class="proj-node live">
+        <div class="branch-tag"><span class="b">⎇ main</span> — shipped to production <span class="status-pill live">● live</span></div>
 
-      <div class="project-card">
-        <p class="project-title">Hilo</p>
-        <p class="project-sub">Patient-centered digital health record platform</p>
-        <div class="stack-row">
-          <span class="chip">Rails 8</span>
-          <span class="chip">PostgreSQL</span>
-          <span class="chip">OpenAI API</span>
-          <span class="chip">Capacitor</span>
-          <span class="chip">PWA</span>
+        <div class="project-card">
+          <p class="project-title">Sauco</p>
+          <p class="project-sub">Launch an online store in minutes, for any shop, anywhere</p>
+          <div class="stack-row">
+            <span class="chip">Rails 8</span>
+            <span class="chip">Hotwire</span>
+            <span class="chip">PostgreSQL</span>
+            <span class="chip">Telegram Bot</span>
+            <span class="chip">Mercado Pago</span>
+            <span class="chip">AI agents</span>
+          </div>
+          <p class="project-desc">
+            A multi-tenant SaaS that lets any small business spin up its own online store in minutes, on its own
+            subdomain or custom domain. It started with local shops in Tandil, but it's built for any city.
+            Owners manage their catalog from where they already are: they send product photos to a Telegram bot
+            and it turns them into listings.
+          </p>
+          <ul class="checklist">
+            <li>Catalog upload through a Telegram bot, with AI-drafted products the owner reviews before publishing</li>
+            <li>Agentic landing pages generated by an AI agent for each store</li>
+            <li>Multi-tenant storefronts with themes, custom domains and Mercado Pago checkout</li>
+            <li>Full admin dashboard for orders, products, analytics and store settings</li>
+          </ul>
+          <a class="commit-link" href="https://sauco.app" target="_blank" rel="noopener">visit sauco.app</a>
         </div>
-        <p class="project-desc">
-          Multi-role platform (patient, doctor, clinic) with granular, permission-based access control per patient.
-          The patient owns their medical information, can share it securely and temporarily, and use AI
-          to understand documents that used to require a doctor to interpret.
-        </p>
-        <ul class="checklist">
-          <li>AI-powered analysis of medical documents, with user confirmation before persisting</li>
-          <li>Dynamic PDF generation of medical summaries</li>
-          <li>Secure sharing via PIN-protected temporary links with access auditing</li>
-          <li>iOS and Android app with Capacitor, reusing the same Rails app</li>
-        </ul>
-        <span class="commit-link soon">view project — soon</span>
+        </div>
+        <div class="proj-node">
+        <div class="branch-tag"><span class="b">⎇ feature/hilo</span> — not merged to main <span class="status-pill">🚧 in progress</span></div>
+  
+          <div class="project-card">
+            <p class="project-title">Hilo</p>
+            <p class="project-sub">Patient-centered digital health record platform</p>
+            <div class="stack-row">
+              <span class="chip">Rails 8</span>
+              <span class="chip">PostgreSQL</span>
+              <span class="chip">OpenAI API</span>
+              <span class="chip">Capacitor</span>
+              <span class="chip">PWA</span>
+            </div>
+            <p class="project-desc">
+              Multi-role platform (patient, doctor, clinic) with granular, permission-based access control per patient.
+              The patient owns their medical information, can share it securely and temporarily, and use AI
+              to understand documents that used to require a doctor to interpret.
+            </p>
+            <ul class="checklist">
+              <li>AI-powered analysis of medical documents, with user confirmation before persisting</li>
+              <li>Dynamic PDF generation of medical summaries</li>
+              <li>Secure sharing via PIN-protected temporary links with access auditing</li>
+              <li>iOS and Android app with Capacitor, reusing the same Rails app</li>
+            </ul>
+            <span class="commit-link soon">view project — soon</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -665,8 +723,8 @@
           <div class="contact-value">github.com/FacundoGimenez</div>
         </a>
         <div class="contact-card soon">
-          <div class="contact-label">CURRENT PROJECT</div>
-          <div class="contact-value">Hilo — soon</div>
+          <div class="contact-label">PROJECTS</div>
+          <div class="contact-value">Sauco · Hilo (soon)</div>
         </div>
       </div>
     </div>
